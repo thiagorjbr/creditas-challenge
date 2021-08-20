@@ -1,0 +1,24 @@
+version: '3'
+
+services:
+  mysql:
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: "secret-pw"
+      MYSQL_DATABASE: "challenge"
+    ports:
+      - "3307:3306"
+    network_mode: bridge
+    volumes:
+      - ../bd/scripts/dump.sql:/docker-entrypoint-initdb.d/dump.sql
+    healthcheck:
+      test:  mysql --user=root --password=secret-pw -e 'select * from challenge.car' challenge
+
+  creditas-challenge:
+    image: thiagobr/creditas-challenge:1.0.0
+    network_mode: host
+    depends_on:
+      mysql:
+        condition: service_healthy
+    restart: on-failure
+
