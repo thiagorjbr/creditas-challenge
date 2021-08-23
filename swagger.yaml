@@ -241,25 +241,25 @@ definitions:
         items:
           properties:
             monday:
-              type: "object"
+              type: object
               properties:
                 begin:
-                  type: "integer"
+                  type: integer
                   example: "9"
                   description: Numeric hour based on 24h
                 end:
-                  type: "integer"
+                  type: integer
                   example: "18"
                   description: Numeric hour based on 24h
             wednesday:
-              type: "object"
+              type: object
               properties:
                 begin:
-                  type: "integer"
+                  type: integer
                   example: "9"
                   description: Numeric hour based on 24h
                 end:
-                  type: "integer"
+                  type: integer
                   example: "18"
                   description: Numeric hour based on 24h
   Car:
