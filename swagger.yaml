@@ -257,9 +257,11 @@ definitions:
                 begin:
                   type: "integer"
                   example: "9"
+                  description: Numeric hour based on 24h
                 end:
                   type: "integer"
                   example: "18"
+                  description: Numeric hour based on 24h
   Car:
     type: "object"
     required:
