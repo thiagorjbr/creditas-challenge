@@ -11,3 +11,4 @@ $ docker-compose start
 ```
 * Dessa forma, a aplicação sobe localmente na porta 8090 e o banco na porta 3307.
 * Usuário do banco = root | senha = secret-pw
+* Arquivo swagger com a documentação das chamadas REST no root do projeto.
