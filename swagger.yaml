@@ -1,0 +1,275 @@
+swagger: "2.0"
+info:
+  description: ""
+  version: "1.0.0"
+  title: "creditas-challenge"
+  contact:
+    email: "tcampos85@gmail.com"
+host: "localhost:8090"
+basePath: "/creditas"
+schemes:
+- "http"
+paths:
+  /cav:
+    get:
+      tags:
+      - "CAV"
+      summary: "List all CAVs"
+      responses:
+        "200":
+          description: "Ok"
+        "404":
+          description: "Not Found"
+    post:
+      tags:
+      - "CAV"
+      summary: "Add a new CAV"
+      consumes:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        required: true
+        schema:
+          $ref: "#/definitions/CAV"
+      responses:
+        "201":
+          description: "Created"
+        "400":
+          description: "Invalid input"
+  /cav/{cavId}:
+    put:
+      tags:
+      - "CAV"
+      summary: "Update an existing CAV"
+      consumes:
+      - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          required: true
+          schema:
+            $ref: "#/definitions/CAV"
+        - in: path
+          name: cavId
+          type: integer
+          required: true
+          description: Numeric ID of the CAV
+      responses:
+        "200":
+          description: "Ok"
+        "400":
+          description: "Invalid input"
+        "404":
+          description: "Not Found"
+  /cav/{cavId}/{day}:
+    get:
+      summary: Get the CAV's calendar of the day (VISIT and INSPECTION)
+      tags:
+      - "Schedule"
+      parameters:
+        - in: path
+          name: cavId
+          type: integer
+          required: true
+          description: Numeric ID of the CAV
+        - in: path
+          name: day
+          type: "string"
+          required: true
+          description: The date (in format yyyy-MM-dd) of the day that you want to check
+      responses:
+        "200":
+          description: "Ok"
+        "400":
+          description: "Invalid input"
+  /cav/{cavId}/{day}/{hour}/{carId}/{type}:
+    post:
+      summary: Schedule a VISIT or INSPECTION to a car.
+      tags:
+      - "Schedule"
+      parameters:
+        - in: path
+          name: cavId
+          type: "integer"
+          required: true
+          description: Numeric ID of the CAV
+        - in: path
+          name: day
+          type: "string"
+          required: true
+          description: The date (in format yyyy-MM-dd) of the day that you want to check
+        - in: path
+          name: hour
+          type: "integer"
+          required: true
+          description: Numeric hour based on 24h
+        - in: path
+          name: carId
+          type: "integer"
+          required: true
+          description: Numeric ID of the Car
+        - in: path
+          name: type
+          type: "string"
+          enum: ["VISIT", "INSPECTION"]
+          required: true
+          description: The type is VISIT or INSPECTION
+      responses:
+        "201":
+          description: "Created"
+        "400":
+          description: "Invalid input"
+  /cav/{cavId}/{day}/{hour}/{type}:
+    delete:
+      summary: Schedule a VISIT or INSPECTION to a car.
+      tags:
+      - "Schedule"
+      parameters:
+        - in: path
+          name: cavId
+          type: "integer"
+          required: true
+          description: Numeric ID of the CAV
+        - in: path
+          name: day
+          type: "string"
+          required: true
+          description: The date (in format yyyy-MM-dd) of the day that you want to check
+        - in: path
+          name: hour
+          type: "integer"
+          required: true
+          description: Numeric hour based on 24h
+        - in: path
+          name: type
+          type: "string"
+          enum: ["VISIT", "INSPECTION"]
+          required: true
+          description: The type is VISIT or INSPECTION
+      responses:
+        "200":
+          description: "Ok"
+        "400":
+          description: "Invalid input"
+        "404":
+          description: "Not Found"
+  /car:
+    get:
+      summary: List all Cars.
+      tags:
+      - "Car"
+      responses:
+        "200":
+          description: "Ok"
+        "404":
+          description: "Not Found"
+    post:
+      tags:
+      - "Car"
+      summary: "Add a new Car"
+      consumes:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        required: true
+        schema:
+          $ref: "#/definitions/Car"
+      responses:
+        "201":
+          description: "Created"
+        "400":
+          description: "Invalid input"
+  /car/{carId}:
+    put:
+      tags:
+        - "Car"
+      summary: "Update an existing Car"
+      consumes:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          required: true
+          schema:
+            $ref: "#/definitions/Car"
+        - in: path
+          name: carId
+          type: integer
+          required: true
+          description: Numeric ID of the Car
+      responses:
+        "200":
+          description: "Ok"
+        "400":
+          description: "Invalid input"
+        "404":
+          description: "Not Found"
+    delete:
+      tags:
+        - "Car"
+      summary: "Delete an existing Car"
+      consumes:
+        - "application/json"
+      parameters:
+        - in: path
+          name: carId
+          type: integer
+          required: true
+          description: Numeric ID of the Car
+      responses:
+        "200":
+          description: "Ok"
+        "400":
+          description: "Invalid input"
+        "404":
+          description: "Not Found"
+definitions:
+  CAV:
+    type: "object"
+    required:
+    - "name"
+    - "openHours"
+    properties:
+      name:
+        type: "string"
+        example: "Botafogo"
+      openHours:
+        type: "array"
+        description: "Should be a day of the week. I.E: sunday monday tuesday wednesday thursday friday saturday."
+        items:
+          properties:
+            monday:
+              type: "object"
+              properties:
+                begin:
+                  type: "integer"
+                  example: "9"
+                  description: Numeric hour based on 24h
+                end:
+                  type: "integer"
+                  example: "18"
+                  description: Numeric hour based on 24h
+            wednesday:
+              type: "object"
+              properties:
+                begin:
+                  type: "integer"
+                  example: "9"
+                end:
+                  type: "integer"
+                  example: "18"
+  Car:
+    type: "object"
+    required:
+    - "brand"
+    - "model"
+    properties:
+      brand:
+        type: "string"
+        example: "Toyota"
+      model:
+        type: "string"
+        example: "Corolla"
+      
