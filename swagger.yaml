@@ -263,15 +263,15 @@ definitions:
                   example: "18"
                   description: Numeric hour based on 24h
   Car:
-    type: "object"
+    type: object
     required:
     - "brand"
     - "model"
     properties:
       brand:
-        type: "string"
+        type: string
         example: "Toyota"
       model:
-        type: "string"
+        type: string
         example: "Corolla"
       
